@@ -235,6 +235,15 @@ export default function Home() {
     queryFn: () => getMetalPrice("XPT/INR"),
   });
 
+  const {
+    data: silver,
+    isLoading: silverLoading,
+    refetch: refetchSilver,
+  } = useQuery({
+    queryKey: ["silver"],
+    queryFn: () => getMetalPrice("XAG/INR"), // XAG is Silver
+  });
+
   const goToDetails = (metal, data) => {
     if (!data) return;
     router.push(
@@ -287,6 +296,31 @@ export default function Home() {
           <Text style={styles.tileButtonText}>Refresh</Text>
         </TouchableOpacity>
       </TouchableOpacity>
+
+      {/* Silver Tile */}
+      <TouchableOpacity
+        style={[styles.tile, styles.silverTile]}
+        onPress={() => goToDetails("Silver", silver)}
+      >
+        <Text style={[styles.metal, { color: "#000" }]}>Silver</Text>
+        {silverLoading ? (
+          <ActivityIndicator color="#000000ff" />
+        ) : silver ? (
+          <>
+            <Text style={[styles.price, { color: "#000" }]}>
+              {silver.price} INR
+            </Text>
+            <Text style={[styles.timestamp, { color: "#000" }]}>
+              {silver.timestamp}
+            </Text>
+          </>
+        ) : (
+          <Text style={styles.error}>Error fetching Silver</Text>
+        )}
+        <TouchableOpacity style={styles.tileButton} onPress={refetchSilver}>
+          <Text style={styles.tileButtonText}>Refresh</Text>
+        </TouchableOpacity>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -314,6 +348,9 @@ const styles = StyleSheet.create({
   },
   platTile: {
     backgroundColor: "#C0C0C0",
+  },
+  silverTile: {
+    backgroundColor: "#cec5c5ff",
   },
   metal: { fontSize: 22, fontWeight: "700", marginBottom: 5, color: "#fff" },
   price: { fontSize: 20, fontWeight: "600", color: "#fff" },
