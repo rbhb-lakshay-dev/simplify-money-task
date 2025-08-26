@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Replace with your own GoldAPI.io key
-const API_KEY = "goldapi-5hxrvsmes8vt38-io";
+const API_KEY = "goldapi-3dxou19mespcigf-io";
 const BASE_URL = "https://www.goldapi.io/api";
 
 // Generic function to fetch metal price
